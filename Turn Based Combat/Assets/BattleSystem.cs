@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,6 +30,7 @@ public class BattleSystem : MonoBehaviour
 
     [Header("Code Variables")]
     public float textDelay = 2f;
+    public List<Unit> turnOrder = new List<Unit>();
 
     // Start is called before the first frame update
     void Start()
@@ -36,10 +38,46 @@ public class BattleSystem : MonoBehaviour
         state = BattleState.START;
 
         StartCoroutine(BattleSetup());
+
+        int startSpeedBuffer = turnOrder.First().unitSpeed;
+
+        if (turnOrder.First().unitSpeed != 0)
+        {
+            foreach (var x in turnOrder)
+            {
+                x.unitSpeed -= startSpeedBuffer;
+                //Debug.Log(startSpeedBuffer);
+            }
+        }
+
+        turnOrder = turnOrder.OrderBy(w => w.unitSpeed).ToList();
+
+        foreach (var x in turnOrder)
+        {
+            Debug.Log(x.ToString() + " " + x.unitSpeed);
+        }
+
+
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            turnOrder.First().unitSpeed += 10;
+
+            Debug.Log("New Order");
+
+            foreach (var x in turnOrder)
+            {
+                Debug.Log(x.ToString() + " " + x.unitSpeed);
+            }
+        }
     }
 
     private IEnumerator BattleSetup()
     {
+
         GameObject playerGameObject = Instantiate(playerPrefab, playerBattleStation);
         playerUnit = playerGameObject.GetComponent<Unit>();
 
@@ -53,8 +91,30 @@ public class BattleSystem : MonoBehaviour
 
         yield return new WaitForSeconds(textDelay);
 
-        state = BattleState.PLAYERTURN;
-        PlayerTurn();
+        state = BattleState.UPNEXT;
+        UpNext();
+    }
+
+    void UpNext()
+    {
+        if (playerUnit.IsDead())
+        {
+            state = BattleState.LOST;
+            EndBattle();
+        }
+        else
+        {
+            if (turnOrder.First().unitType == UnitType.PLAYER)
+            {
+                state = BattleState.PLAYERTURN;
+                PlayerTurn();
+            }
+            else if (turnOrder.First().unitType == UnitType.ENEMY)
+            {
+                state = BattleState.ENEMYTURN;
+                StartCoroutine(EnemyTurn());
+            }
+        }
     }
 
     void PlayerTurn()
@@ -65,6 +125,15 @@ public class BattleSystem : MonoBehaviour
     IEnumerator PlayerAttack()
     {
 
+        playerUnit.NormalAttackSpeed();
+
+        Debug.Log("New Order");
+
+        foreach (var x in turnOrder)
+        {
+            Debug.Log(x.ToString() + " " + x.unitSpeed);
+        }
+
         enemyUnit.TakeDamage(playerUnit.unitDamage);
 
         enemyUI.SetHP(enemyUnit.unitCurrentHP);
@@ -72,20 +141,22 @@ public class BattleSystem : MonoBehaviour
 
         yield return new WaitForSeconds(textDelay);
 
-        if (enemyUnit.IsDead())
-        {
-            state = BattleState.WON;
-            EndBattle();
-        }
-        else
-        {
-            state = BattleState.ENEMYTURN;
-            StartCoroutine(EnemyTurn());
-        }
+        state = BattleState.UPNEXT;
+        UpNext();
     }
 
     IEnumerator EnemyTurn()
     {
+
+        enemyUnit.NormalAttackSpeed();
+
+        Debug.Log("New Order");
+
+        foreach (var x in turnOrder)
+        {
+            Debug.Log(x.ToString() + " " + x.unitSpeed);
+        }
+
         dialogueText.text = enemyUnit.unitName + " attacks!";
 
         yield return new WaitForSeconds(textDelay);
@@ -96,16 +167,8 @@ public class BattleSystem : MonoBehaviour
 
         yield return new WaitForSeconds(textDelay);
 
-        if (playerUnit.IsDead())
-        {
-            state = BattleState.LOST;
-            EndBattle();
-        }
-        else
-        {
-            state = BattleState.PLAYERTURN;
-            PlayerTurn();
-        }
+        state = BattleState.UPNEXT;
+        UpNext();
     }
 
     private void EndBattle()

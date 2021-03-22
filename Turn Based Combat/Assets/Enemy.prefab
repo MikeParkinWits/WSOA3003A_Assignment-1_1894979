@@ -129,5 +129,7 @@ MonoBehaviour:
   unitName: The Rock
   unitLevel: 2
   unitDamage: 5
-  unitMaxHP: 30
-  unitCurrentHP: 30
+  unitMaxHP: 50
+  unitCurrentHP: 25
+  unitSpeed: 20
+  unitType: 1
