@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 
 public enum UnitType { PLAYER, ENEMY }
@@ -18,15 +19,24 @@ public class Unit : MonoBehaviour
 
     public int unitSpeed;
 
+    public string playerType;
+
     private BattleSystem battleSystem;
 
     public UnitType unitType;
+
+    private Actions actions;
+
+    public int uniqueNum;
 
     void Awake()
     {
         battleSystem = GameObject.Find("BattleSystem").GetComponent<BattleSystem>();
 
         battleSystem.turnOrder.Add(this);
+
+        uniqueNum++;
+        //unitSpeed *= UnityEngine.Random.Range(1, 10); //FOR TESTING, TAKE OUT WHEN FINAL
     }
 
     public void TakeDamage(int damage)
@@ -50,10 +60,25 @@ public class Unit : MonoBehaviour
     {
         unitCurrentHP += healAmount;
 
-        if (unitCurrentHP> unitMaxHP)
+        if (unitCurrentHP >= unitMaxHP)
         {
             unitCurrentHP = unitMaxHP;
         }
+
+        int speedChange = battleSystem.turnOrder.ElementAt(1).unitSpeed;
+
+        foreach (var x in battleSystem.turnOrder)
+        {
+            x.unitSpeed -= speedChange;
+            //Debug.Log(x.ToString());
+
+            Debug.Log("YES" + x.unitSpeed);
+        }
+
+        battleSystem.turnOrder.First().unitSpeed += (speedChange) + 20;
+
+
+        battleSystem.turnOrder = battleSystem.turnOrder.OrderBy(w => w.unitSpeed).ToList();
     }
 
     public void NormalAttackSpeed()
@@ -66,9 +91,31 @@ public class Unit : MonoBehaviour
         {
             x.unitSpeed -= speedChange;
             //Debug.Log(x.ToString());
+
+            Debug.Log("YES" + x.unitSpeed);
         }
 
-        battleSystem.turnOrder.First().unitSpeed += (speedChange) + 10;
+        battleSystem.turnOrder.First().unitSpeed += (speedChange) + battleSystem.currentAttackSpeed;
+
+
+        battleSystem.turnOrder = battleSystem.turnOrder.OrderBy(w => w.unitSpeed).ToList();
+    }
+
+    public void EnemyAttackSpeed()
+    {
+        Debug.Log("Name: " + this.unitName);
+
+        int speedChange = battleSystem.turnOrder.ElementAt(1).unitSpeed;
+
+        foreach (var x in battleSystem.turnOrder)
+        {
+            x.unitSpeed -= speedChange;
+            //Debug.Log(x.ToString());
+
+            Debug.Log("YES" + x.unitSpeed);
+        }
+
+        battleSystem.turnOrder.First().unitSpeed += (speedChange) + battleSystem.currentAttackSpeed;
 
 
         battleSystem.turnOrder = battleSystem.turnOrder.OrderBy(w => w.unitSpeed).ToList();

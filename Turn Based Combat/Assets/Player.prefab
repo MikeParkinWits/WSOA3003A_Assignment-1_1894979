@@ -44,12 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dedd73e27805934dbb2361317427c96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: Actual Rock
+  unitName: Small
   unitLevel: 999
   unitDamage: 10
-  unitMaxHP: 25
-  unitCurrentHP: 20
+  unitMaxHP: 30
+  unitCurrentHP: 25
   unitSpeed: 10
+  playerType: Small
+  unitType: 0
 --- !u!1 &5107626517669463434
 GameObject:
   m_ObjectHideFlags: 0
