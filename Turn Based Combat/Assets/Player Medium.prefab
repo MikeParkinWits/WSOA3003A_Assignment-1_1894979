@@ -52,6 +52,9 @@ MonoBehaviour:
   unitSpeed: 20
   playerType: Medium
   unitType: 0
+  uniqueNum: 0
+  attackPower: 20
+  defensePower: 10
 --- !u!1 &5107626517669463434
 GameObject:
   m_ObjectHideFlags: 0

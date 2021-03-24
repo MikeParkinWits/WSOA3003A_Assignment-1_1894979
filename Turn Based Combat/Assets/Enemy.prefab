@@ -134,3 +134,6 @@ MonoBehaviour:
   unitSpeed: 20
   playerType: 
   unitType: 1
+  uniqueNum: 0
+  attackPower: 15
+  defensePower: 20

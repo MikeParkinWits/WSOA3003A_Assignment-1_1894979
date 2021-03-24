@@ -1315,7 +1315,9 @@ MonoBehaviour:
   turnOrder: []
   playerCharacters:
   - {fileID: 5107626517389368758, guid: 76381f13a1ea83e409dcf04c583f31b0, type: 3}
+  - {fileID: 5107626517389368758, guid: 454e65b82ebcc7f48952c50cd42384a4, type: 3}
   enemyCharacters:
+  - {fileID: 1749697871844888905, guid: 9bbcc8e93579197458837cbcfdd9fca1, type: 3}
   - {fileID: 1749697871844888905, guid: 9bbcc8e93579197458837cbcfdd9fca1, type: 3}
   unitSpawnPoints:
   - {fileID: 1537473534}
@@ -1337,6 +1339,9 @@ MonoBehaviour:
   currentAttackDamage: 0
   currentAttackSpeed: 0
   currentSpecialBonus: 0
+  currentAccuracy: 0
+  specialAccuracyBuffer: 0
+  specialMoveMultiplier: 1
   enemySelectPanel: {fileID: 807952595}
   enemyAttackSelection: 0
   enemyOneSprite: {fileID: 771853620}
@@ -1349,6 +1354,8 @@ MonoBehaviour:
   specialInputAchieved: 0
   specialInputTimer: 0
   specialTimeIndicator: {fileID: 157891857}
+  damageCalculated: 0
+  damageCalculatedFloat: 0
 --- !u!4 &372138391
 Transform:
   m_ObjectHideFlags: 0
@@ -2702,6 +2709,7 @@ MonoBehaviour:
   actionDamage: 0
   actionSpeed: 0
   specialBonus: 0
+  actionAccuracy: 0
   buttonOneName: {fileID: 1249410418}
   buttonOneCost: {fileID: 0}
   buttonOneDamage: 0
@@ -6415,6 +6423,7 @@ MonoBehaviour:
   actionDamage: 0
   actionSpeed: 0
   specialBonus: 0
+  actionAccuracy: 0
   buttonOneName: {fileID: 887888257}
   buttonOneCost: {fileID: 136799938}
   buttonOneDamage: 0

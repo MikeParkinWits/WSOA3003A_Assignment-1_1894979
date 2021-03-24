@@ -57,6 +57,9 @@ public class BattleSystem : MonoBehaviour
     public int currentAttackDamage;
     public int currentAttackSpeed;
     public float currentSpecialBonus;
+    public float currentAccuracy;
+    public float specialAccuracyBuffer = 0f;
+    public float specialMoveMultiplier = 1f;
 
     public GameObject enemySelectPanel;
     public int enemyAttackSelection;
@@ -75,6 +78,9 @@ public class BattleSystem : MonoBehaviour
     public bool specialInputAchieved = false;
     public float specialInputTimer;
     public GameObject specialTimeIndicator;
+
+    public int damageCalculated;
+    public float damageCalculatedFloat;
 
 
     // Start is called before the first frame update
@@ -177,6 +183,8 @@ public class BattleSystem : MonoBehaviour
 
     void Update()
     {
+
+        playerUI.UIIndicator();
 
         if (specialInputActive)
         {
@@ -450,6 +458,21 @@ public class BattleSystem : MonoBehaviour
                     StartCoroutine(EnemyTurn());
                 }
             }
+            else
+            {
+                playerUI.UIIndicator();
+
+                if (turnOrder.First().unitType == UnitType.PLAYER)
+                {
+                    state = BattleState.PLAYERTURN;
+                    PlayerTurn();
+                }
+                else if (turnOrder.First().unitType == UnitType.ENEMY)
+                {
+                    state = BattleState.ENEMYTURN;
+                    StartCoroutine(EnemyTurn());
+                }
+            }
         }
         else if (playerCharacters.Length == 3)
         {
@@ -562,18 +585,37 @@ public class BattleSystem : MonoBehaviour
         if (specialInputAchieved)
         {
             Debug.Log("Special YAY");
+            specialAccuracyBuffer = 0.9f;
+            specialMoveMultiplier = 1.5f;
         }
         else
         {
             Debug.Log("Special NAY");
+            specialAccuracyBuffer = 1.1f;
+            specialMoveMultiplier = 1f;
         }
 
         specialInputAchieved = false;
 
-        enemyUnit[0].TakeDamage(currentAttackDamage);
+        damageCalculated = (currentAttackDamage + playerUnit[currentPlayerNum].attackPower + UnityEngine.Random.Range(0,10)) - enemyUnit[0].defensePower;
+        damageCalculatedFloat = damageCalculated * specialMoveMultiplier;
+        damageCalculated = (int) damageCalculatedFloat;
+
+        Debug.Log("DAMAGE AMOUNT: " + damageCalculated);
+
+        if (UnityEngine.Random.Range(0f, 10f/specialAccuracyBuffer) <= currentAccuracy)
+        {
+            enemyUnit[0].TakeDamage(damageCalculated);
+            dialogueText.text = "The attack is successful!";
+        }
+        else
+        {
+            dialogueText.text = "The attack was not successful!";
+        }
+
+
 
         enemyUI.SetHP(enemyUnit[0].unitCurrentHP, 0);
-        dialogueText.text = "The attack is successful!";
 
         yield return new WaitForSeconds(textDelay);
 
@@ -607,6 +649,7 @@ public class BattleSystem : MonoBehaviour
 
             currentAttackDamage = actions.actionDamage;
             currentAttackSpeed = actions.actionSpeed;
+            currentAccuracy = actions.actionAccuracy;
         }
         else if (randomNum == 2)
         {
@@ -614,6 +657,7 @@ public class BattleSystem : MonoBehaviour
 
             currentAttackDamage = actions.actionDamage;
             currentAttackSpeed = actions.actionSpeed;
+            currentAccuracy = actions.actionAccuracy;
         }
 
         enemyUnit[currentEnemyNum].NormalAttackSpeed();
@@ -723,7 +767,50 @@ public class BattleSystem : MonoBehaviour
         }
 
 
-        playerUnit[num].TakeDamage(currentAttackDamage);
+
+
+
+
+        if (UnityEngine.Random.Range(0f, 1f) <= 0.05f)
+        {
+            Debug.Log("Special YAY");
+            specialAccuracyBuffer = 0.9f;
+            specialMoveMultiplier = 1.5f;
+            Debug.Log("1235");
+
+        }
+        else
+        {
+            Debug.Log("Special NAY");
+            specialAccuracyBuffer = 1f;
+            specialMoveMultiplier = 1f;
+            Debug.Log("1235");
+        }
+
+        specialInputAchieved = false;
+
+        damageCalculated = (currentAttackDamage + enemyUnit[currentEnemyNum].attackPower + UnityEngine.Random.Range(0, 10)) - playerUnit[num].defensePower;
+        damageCalculatedFloat = damageCalculated * specialMoveMultiplier;
+        damageCalculated = (int)damageCalculatedFloat;
+
+        Debug.Log("DAMAGE AMOUNT ENEMY: " + damageCalculated);
+
+        if (UnityEngine.Random.Range(0f, 10f / specialAccuracyBuffer) <= currentAccuracy)
+        {
+            playerUnit[num].TakeDamage(damageCalculated);
+            dialogueText.text = "The attack is successful!";
+        }
+        else
+        {
+            dialogueText.text = "The attack was not successful!";
+        }
+
+
+
+
+
+
+
 
         playerUI.SetHP(playerUnit[num].unitCurrentHP, num);
 
@@ -859,12 +946,16 @@ public class BattleSystem : MonoBehaviour
         currentAttackDamage = actions.actionDamage;
         currentAttackSpeed = actions.actionSpeed;
         currentSpecialBonus = actions.specialBonus;
+        currentAccuracy = actions.actionAccuracy;
+
+        //1234
 
         if (enemyCharacters.Length == 1)
         {
             currentAttackDamage = actions.actionDamage;
             currentAttackSpeed = actions.actionSpeed;
             currentSpecialBonus = actions.specialBonus;
+            currentAccuracy = actions.actionAccuracy;
 
             StartCoroutine(PlayerAttack());
         }
@@ -873,6 +964,7 @@ public class BattleSystem : MonoBehaviour
             currentAttackDamage = actions.actionDamage;
             currentAttackSpeed = actions.actionSpeed;
             currentSpecialBonus = actions.specialBonus;
+            currentAccuracy = actions.actionAccuracy;
 
             enemySelectPanel.SetActive(true);
         }
@@ -883,6 +975,7 @@ public class BattleSystem : MonoBehaviour
                 currentAttackDamage = actions.actionDamage;
                 currentAttackSpeed = actions.actionSpeed;
                 currentSpecialBonus = actions.specialBonus;
+                currentAccuracy = actions.actionAccuracy;
 
                 StartCoroutine(PlayerAttackEnemyVariations(0));
             }
@@ -891,6 +984,7 @@ public class BattleSystem : MonoBehaviour
                 currentAttackDamage = actions.actionDamage;
                 currentAttackSpeed = actions.actionSpeed;
                 currentSpecialBonus = actions.specialBonus;
+                currentAccuracy = actions.actionAccuracy;
 
                 StartCoroutine(PlayerAttackEnemyVariations(1));
             }
@@ -931,25 +1025,43 @@ public class BattleSystem : MonoBehaviour
 
         specialInputActive = true;
 
-        Debug.Log("DID IT WORK?!");
-
         yield return new WaitForSeconds(currentSpecialBonus + 0.01f);
 
         if (specialInputAchieved)
         {
             Debug.Log("Special YAY");
+            specialAccuracyBuffer = 0.9f;
+            specialMoveMultiplier = 1.5f;
+            Debug.Log("1235");
+
         }
         else
         {
             Debug.Log("Special NAY");
+            specialAccuracyBuffer = 1.1f;
+            specialMoveMultiplier = 1f;
+            Debug.Log("1235");
         }
 
         specialInputAchieved = false;
 
-        enemyUnit[enemyAlive].TakeDamage(currentAttackDamage);
+        damageCalculated = (currentAttackDamage + playerUnit[currentPlayerNum].attackPower + UnityEngine.Random.Range(0, 10)) - enemyUnit[enemyAlive].defensePower;
+        damageCalculatedFloat = damageCalculated * specialMoveMultiplier;
+        damageCalculated = (int)damageCalculatedFloat;
+
+        Debug.Log("DAMAGE AMOUNT: " + damageCalculated);
+
+        if (UnityEngine.Random.Range(0f, 10f / specialAccuracyBuffer) <= currentAccuracy)
+        {
+            enemyUnit[enemyAlive].TakeDamage(damageCalculated);
+            dialogueText.text = "The attack is successful!";
+        }
+        else
+        {
+            dialogueText.text = "The attack was not successful!";
+        }
 
         enemyUI.SetHP(enemyUnit[enemyAlive].unitCurrentHP, enemyAlive);
-        dialogueText.text = "The attack is successful!";
 
         yield return new WaitForSeconds(textDelay);
 
@@ -1084,21 +1196,43 @@ public class BattleSystem : MonoBehaviour
 
         yield return new WaitForSeconds(currentSpecialBonus + 0.01f);
 
+
+
         if (specialInputAchieved)
         {
             Debug.Log("Special YAY");
+            specialAccuracyBuffer = 0.9f;
+            specialMoveMultiplier = 1.5f;
+            Debug.Log("1235");
+
         }
         else
         {
             Debug.Log("Special NAY");
+            specialAccuracyBuffer = 1.1f;
+            specialMoveMultiplier = 1f;
+            Debug.Log("1235");
         }
 
         specialInputAchieved = false;
 
-        enemyUnit[enemyAttackSelection].TakeDamage(currentAttackDamage);
+        damageCalculated = (currentAttackDamage + playerUnit[currentPlayerNum].attackPower + UnityEngine.Random.Range(0, 10)) - enemyUnit[enemyAttackSelection].defensePower;
+        damageCalculatedFloat = damageCalculated * specialMoveMultiplier;
+        damageCalculated = (int)damageCalculatedFloat;
+
+        Debug.Log("DAMAGE AMOUNT: " + damageCalculated);
+
+        if (UnityEngine.Random.Range(0f, 10f / specialAccuracyBuffer) <= currentAccuracy)
+        {
+            enemyUnit[enemyAttackSelection].TakeDamage(damageCalculated);
+            dialogueText.text = "The attack is successful!";
+        }
+        else
+        {
+            dialogueText.text = "The attack was not successful!";
+        }
 
         enemyUI.SetHP(enemyUnit[enemyAttackSelection].unitCurrentHP, enemyAttackSelection);
-        dialogueText.text = "The attack is successful!";
 
         yield return new WaitForSeconds(textDelay);
 

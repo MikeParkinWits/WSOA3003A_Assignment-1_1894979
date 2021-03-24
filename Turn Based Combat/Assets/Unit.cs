@@ -29,6 +29,10 @@ public class Unit : MonoBehaviour
 
     public int uniqueNum;
 
+    public int attackPower;
+
+    public int defensePower;
+
     void Awake()
     {
         battleSystem = GameObject.Find("BattleSystem").GetComponent<BattleSystem>();

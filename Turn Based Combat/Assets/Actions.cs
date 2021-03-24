@@ -15,6 +15,8 @@ public class Actions : MonoBehaviour
 
     public float specialBonus;
 
+    public float actionAccuracy;
+
     public Text buttonOneName;
     public Text buttonOneCost;
     public int buttonOneDamage;
@@ -49,6 +51,7 @@ public class Actions : MonoBehaviour
         buttonOneCost.text = "Cost: " + actionSpeed;
         buttonOneDamage = actionDamage;
         specialBonus = 1.2f;
+        actionAccuracy = 10;
     }
 
     public void SmallPlayerMediumMove()
@@ -59,6 +62,7 @@ public class Actions : MonoBehaviour
         buttonTwoCost.text = "Cost: " + actionSpeed;
         buttonTwoDamage = actionDamage;
         specialBonus = 1.5f;
+        actionAccuracy = 8;
     }
 
     public void SmallPlayerHeavyMove()
@@ -69,6 +73,7 @@ public class Actions : MonoBehaviour
         buttonThreeCost.text = "Cost: " + actionSpeed;
         buttonThreeDamage = actionDamage;
         specialBonus = 1.7f;
+        actionAccuracy = 9;
     }
 
 
@@ -82,6 +87,7 @@ public class Actions : MonoBehaviour
         buttonOneCost.text = "Cost: " + actionSpeed;
         buttonOneDamage = actionDamage;
         specialBonus = 1.4f;
+        actionAccuracy = 10;
     }
 
     public void MediumPlayerMediumMove()
@@ -92,6 +98,7 @@ public class Actions : MonoBehaviour
         buttonTwoCost.text = "Cost: " + actionSpeed;
         buttonTwoDamage = actionDamage;
         specialBonus = 1.6f;
+        actionAccuracy = 8.5f;
     }
 
     public void MediumPlayerHeavyMove()
@@ -102,6 +109,7 @@ public class Actions : MonoBehaviour
         buttonThreeCost.text = "Cost: " + actionSpeed;
         buttonThreeDamage = actionDamage;
         specialBonus = 1.9f;
+        actionAccuracy = 9f;
     }
 
     //Heavy Player Moves
@@ -114,6 +122,7 @@ public class Actions : MonoBehaviour
         buttonOneCost.text = "Cost: " + actionSpeed;
         buttonOneDamage = actionDamage;
         specialBonus = 1.6f;
+        actionAccuracy = 10;
     }
 
     public void HeavyPlayerMediumMove()
@@ -124,6 +133,7 @@ public class Actions : MonoBehaviour
         buttonTwoCost.text = "Cost: " + actionSpeed;
         buttonTwoDamage = actionDamage;
         specialBonus = 1.9f;
+        actionAccuracy = 7;
     }
 
     public void HeavyPlayerHeavyMove()
@@ -134,6 +144,7 @@ public class Actions : MonoBehaviour
         buttonThreeCost.text = "Cost: " + actionSpeed;
         buttonThreeDamage = actionDamage;
         specialBonus = 2.1f;
+        actionAccuracy = 8;
     }
 
     //Possible Enemy Actions
@@ -142,11 +153,13 @@ public class Actions : MonoBehaviour
     {
         actionSpeed = 25;
         actionDamage = 5;
+        actionAccuracy = 8;
     }
 
     public void EnemyMediumMove()
     {
         actionSpeed = 35;
         actionDamage = 11;
+        actionAccuracy = 7;
     }
 }
