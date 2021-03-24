@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dedd73e27805934dbb2361317427c96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: Medium
-  unitLevel: 999
+  unitName: Medium Player
+  unitLevel: 6
   unitDamage: 10
   unitMaxHP: 40
   unitCurrentHP: 40
@@ -53,8 +53,8 @@ MonoBehaviour:
   playerType: Medium
   unitType: 0
   uniqueNum: 0
-  attackPower: 20
-  defensePower: 10
+  attackPower: 5
+  defensePower: 4
 --- !u!1 &5107626517669463434
 GameObject:
   m_ObjectHideFlags: 0

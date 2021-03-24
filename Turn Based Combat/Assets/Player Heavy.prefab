@@ -44,17 +44,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dedd73e27805934dbb2361317427c96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: Heavy
-  unitLevel: 999
+  unitName: Heavy Player
+  unitLevel: 7
   unitDamage: 10
   unitMaxHP: 55
   unitCurrentHP: 55
-  unitSpeed: 25
+  unitSpeed: 30
   playerType: Heavy
   unitType: 0
   uniqueNum: 0
-  attackPower: 20
-  defensePower: 10
+  attackPower: 8
+  defensePower: 7
 --- !u!1 &5107626517669463434
 GameObject:
   m_ObjectHideFlags: 0

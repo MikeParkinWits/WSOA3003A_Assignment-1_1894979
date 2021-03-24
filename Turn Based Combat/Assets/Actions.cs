@@ -43,123 +43,123 @@ public class Actions : MonoBehaviour
 
     //Small Player Moves
 
-    public void SmallPlayerSmallMove()
+    public void SmallPlayerQuickMove()
     {
         actionSpeed = 10;
         actionDamage = 5;
-        buttonOneName.text = "Small Punch";
-        buttonOneCost.text = "Cost: " + actionSpeed;
+        buttonOneName.text = "Quick Move";
+        buttonOneCost.text = "Time Added: " + actionSpeed;
         buttonOneDamage = actionDamage;
         specialBonus = 1.2f;
-        actionAccuracy = 10;
+        actionAccuracy = 8;
     }
 
-    public void SmallPlayerMediumMove()
+    public void SmallPlayerStandardMove()
     {
         actionSpeed = 25;
         actionDamage = 8;
-        buttonTwoName.text = "Medium Punch";
-        buttonTwoCost.text = "Cost: " + actionSpeed;
+        buttonTwoName.text = "Standard Move";
+        buttonTwoCost.text = "Time Added: " + actionSpeed;
         buttonTwoDamage = actionDamage;
         specialBonus = 1.5f;
-        actionAccuracy = 8;
+        actionAccuracy = 10;
     }
 
     public void SmallPlayerHeavyMove()
     {
-        actionSpeed = 50;
-        actionDamage = 17;
-        buttonThreeName.text = "Heavy Punch";
-        buttonThreeCost.text = "Cost: " + actionSpeed;
+        actionSpeed = 35;
+        actionDamage = 11;
+        buttonThreeName.text = "Heavy Move";
+        buttonThreeCost.text = "Time Added: " + actionSpeed;
         buttonThreeDamage = actionDamage;
         specialBonus = 1.7f;
-        actionAccuracy = 9;
+        actionAccuracy = 6.5f;
     }
 
 
     //Medium Player Moves
 
-    public void MediumPlayerSmallMove()
+    public void MediumPlayerQuickMove()
     {
-        actionSpeed = 20;
-        actionDamage = 5;
-        buttonOneName.text = "Small Punch";
-        buttonOneCost.text = "Cost: " + actionSpeed;
+        actionSpeed = 15;
+        actionDamage = 6;
+        buttonOneName.text = "Quick Move";
+        buttonOneCost.text = "Time Added: " + actionSpeed;
         buttonOneDamage = actionDamage;
         specialBonus = 1.4f;
-        actionAccuracy = 10;
+        actionAccuracy = 7.5f;
     }
 
-    public void MediumPlayerMediumMove()
+    public void MediumPlayerStandardMove()
     {
-        actionSpeed = 30;
-        actionDamage = 10;
-        buttonTwoName.text = "Medium Punch";
-        buttonTwoCost.text = "Cost: " + actionSpeed;
+        actionSpeed = 25;
+        actionDamage = 8;
+        buttonTwoName.text = "Standard Move";
+        buttonTwoCost.text = "Time Added: " + actionSpeed;
         buttonTwoDamage = actionDamage;
-        specialBonus = 1.6f;
-        actionAccuracy = 8.5f;
+        specialBonus = 1.5f;
+        actionAccuracy = 10;
     }
 
     public void MediumPlayerHeavyMove()
     {
-        actionSpeed = 55;
+        actionSpeed = 40;
         actionDamage = 17;
-        buttonThreeName.text = "Heavy Punch";
-        buttonThreeCost.text = "Cost: " + actionSpeed;
+        buttonThreeName.text = "Heavy Move";
+        buttonThreeCost.text = "Time Added: " + actionSpeed;
         buttonThreeDamage = actionDamage;
-        specialBonus = 1.9f;
-        actionAccuracy = 9f;
+        specialBonus = 1.8f;
+        actionAccuracy = 7f;
     }
 
     //Heavy Player Moves
 
-    public void HeavyPlayerSmallMove()
+    public void HeavyPlayerQuickMove()
     {
-        actionSpeed = 25;
-        actionDamage = 5;
-        buttonOneName.text = "Small Punch";
-        buttonOneCost.text = "Cost: " + actionSpeed;
+        actionSpeed = 20;
+        actionDamage = 7;
+        buttonOneName.text = "Quick Move";
+        buttonOneCost.text = "Time Added: " + actionSpeed;
         buttonOneDamage = actionDamage;
-        specialBonus = 1.6f;
-        actionAccuracy = 10;
+        specialBonus = 1.4f;
+        actionAccuracy = 7;
     }
 
-    public void HeavyPlayerMediumMove()
+    public void HeavyPlayerStandardMove()
     {
-        actionSpeed = 30;
-        actionDamage = 10;
-        buttonTwoName.text = "Medium Punch";
-        buttonTwoCost.text = "Cost: " + actionSpeed;
+        actionSpeed = 25;
+        actionDamage = 8;
+        buttonTwoName.text = "Standard Move";
+        buttonTwoCost.text = "Time Added: " + actionSpeed;
         buttonTwoDamage = actionDamage;
-        specialBonus = 1.9f;
-        actionAccuracy = 7;
+        specialBonus = 1.5f;
+        actionAccuracy = 10;
     }
 
     public void HeavyPlayerHeavyMove()
     {
         actionSpeed = 55;
-        actionDamage = 22;
-        buttonThreeName.text = "Heavy Punch";
-        buttonThreeCost.text = "Cost: " + actionSpeed;
+        actionDamage = 17;
+        buttonThreeName.text = "Heavy Move";
+        buttonThreeCost.text = "Time Added: " + actionSpeed;
         buttonThreeDamage = actionDamage;
-        specialBonus = 2.1f;
-        actionAccuracy = 8;
+        specialBonus = 2.0f;
+        actionAccuracy = 6.5f;
     }
 
     //Possible Enemy Actions
 
-    public void EnemySmallMove()
+    public void EnemyQuickMove()
     {
-        actionSpeed = 25;
-        actionDamage = 5;
-        actionAccuracy = 8;
+        actionSpeed = 20;
+        actionDamage = 6;
+        actionAccuracy = 9;
     }
 
-    public void EnemyMediumMove()
+    public void EnemyStandardMove()
     {
-        actionSpeed = 35;
-        actionDamage = 11;
-        actionAccuracy = 7;
+        actionSpeed = 30;
+        actionDamage = 9;
+        actionAccuracy = 8.5f;
     }
 }

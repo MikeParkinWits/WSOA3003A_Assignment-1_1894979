@@ -373,7 +373,14 @@ public class BattleSystem : MonoBehaviour
 
         //GameObject enemyGameObject = Instantiate(enemyPrefab, enemyBattleStation);
 
-        dialogueText.text = "A wild " + enemyUnit[0].unitName + " approaches...";
+        if (enemyUnit.Length == 1)
+        {
+            dialogueText.text = "An Enemy approaches...";
+        }
+        else if (enemyUnit.Length >= 1)
+        {
+            dialogueText.text = "Enemies are approaching...";
+        }
 
         if (playerCharacters.Length >= 1)
         {
@@ -576,7 +583,7 @@ public class BattleSystem : MonoBehaviour
 
         specialInputTimer = currentSpecialBonus;
 
-        yield return new WaitForSeconds(currentSpecialBonus * UnityEngine.Random.Range(1f, 2f));
+        yield return new WaitForSeconds(currentSpecialBonus);
 
         specialInputActive = true;
 
@@ -597,7 +604,7 @@ public class BattleSystem : MonoBehaviour
 
         specialInputAchieved = false;
 
-        damageCalculated = (currentAttackDamage + playerUnit[currentPlayerNum].attackPower + UnityEngine.Random.Range(0,10)) - enemyUnit[0].defensePower;
+        damageCalculated = (currentAttackDamage + playerUnit[currentPlayerNum].attackPower + UnityEngine.Random.Range(-2, 2)) - enemyUnit[0].defensePower;
         damageCalculatedFloat = damageCalculated * specialMoveMultiplier;
         damageCalculated = (int) damageCalculatedFloat;
 
@@ -606,7 +613,7 @@ public class BattleSystem : MonoBehaviour
         if (UnityEngine.Random.Range(0f, 10f/specialAccuracyBuffer) <= currentAccuracy)
         {
             enemyUnit[0].TakeDamage(damageCalculated);
-            dialogueText.text = "The attack is successful!";
+            dialogueText.text = "The attack is successful! \n" + damageCalculated + " damage done to " + enemyUnit[0].unitName;
         }
         else
         {
@@ -645,7 +652,7 @@ public class BattleSystem : MonoBehaviour
 
         if (randomNum == 1)
         {
-            actions.EnemySmallMove();
+            actions.EnemyQuickMove();
 
             currentAttackDamage = actions.actionDamage;
             currentAttackSpeed = actions.actionSpeed;
@@ -653,7 +660,7 @@ public class BattleSystem : MonoBehaviour
         }
         else if (randomNum == 2)
         {
-            actions.EnemyMediumMove();
+            actions.EnemyStandardMove();
 
             currentAttackDamage = actions.actionDamage;
             currentAttackSpeed = actions.actionSpeed;
@@ -789,7 +796,7 @@ public class BattleSystem : MonoBehaviour
 
         specialInputAchieved = false;
 
-        damageCalculated = (currentAttackDamage + enemyUnit[currentEnemyNum].attackPower + UnityEngine.Random.Range(0, 10)) - playerUnit[num].defensePower;
+        damageCalculated = (currentAttackDamage + enemyUnit[currentEnemyNum].attackPower + UnityEngine.Random.Range(-2, 2)) - playerUnit[num].defensePower;
         damageCalculatedFloat = damageCalculated * specialMoveMultiplier;
         damageCalculated = (int)damageCalculatedFloat;
 
@@ -798,7 +805,7 @@ public class BattleSystem : MonoBehaviour
         if (UnityEngine.Random.Range(0f, 10f / specialAccuracyBuffer) <= currentAccuracy)
         {
             playerUnit[num].TakeDamage(damageCalculated);
-            dialogueText.text = "The attack is successful!";
+            dialogueText.text = "The attack is successful! \n" + damageCalculated + " damage done to " + playerUnit[num].unitName;
         }
         else
         {
@@ -833,18 +840,20 @@ public class BattleSystem : MonoBehaviour
     {
         if (state == BattleState.WON)
         {
-            dialogueText.text = "YOU HAVE WON!";
+            int coinsWon = (enemyUnit.Length * 25 + UnityEngine.Random.Range(-5, 5));
+            dialogueText.text = "YOU HAVE WON! \n" + "You received " + coinsWon + " coins!";
         }
         else if (state == BattleState.LOST)
         {
-            dialogueText.text = "YOU WERE DEFEATED...";
+            int coinsLost = (playerUnit.Length * 20 + UnityEngine.Random.Range(-5, 5));
+            dialogueText.text = "You have been defeated... \n" + "You lost " + coinsLost + " coins...";
         }
     }
 
     IEnumerator PlayerHeal()
     {
 
-        playerUnit[currentPlayerNum].Heal(10);
+        playerUnit[currentPlayerNum].Heal(15);
 
         playerUI.SetHP(playerUnit[currentPlayerNum].unitCurrentHP, currentPlayerNum);
         dialogueText.text = "You feel renewed strength!";
@@ -866,22 +875,22 @@ public class BattleSystem : MonoBehaviour
 
             if (playerUnit[currentPlayerNum].playerType == "Small")
             {
-                actions.SmallPlayerSmallMove();
-                actions.SmallPlayerMediumMove();
+                actions.SmallPlayerQuickMove();
+                actions.SmallPlayerStandardMove();
                 actions.SmallPlayerHeavyMove();
             }
 
             if (playerUnit[currentPlayerNum].playerType == "Medium")
             {
-                actions.MediumPlayerSmallMove();
-                actions.MediumPlayerMediumMove();
+                actions.MediumPlayerQuickMove();
+                actions.MediumPlayerStandardMove();
                 actions.MediumPlayerHeavyMove();
             }
 
             if (playerUnit[currentPlayerNum].playerType == "Heavy")
             {
-                actions.HeavyPlayerSmallMove();
-                actions.HeavyPlayerMediumMove();
+                actions.HeavyPlayerQuickMove();
+                actions.HeavyPlayerStandardMove();
                 actions.HeavyPlayerHeavyMove();
             }
 
@@ -899,11 +908,11 @@ public class BattleSystem : MonoBehaviour
         {
             if (EventSystem.current.currentSelectedGameObject.name == "Move 1")
             {
-                actions.SmallPlayerSmallMove();
+                actions.SmallPlayerQuickMove();
             }
             else if (EventSystem.current.currentSelectedGameObject.name == "Move 2")
             {
-                actions.SmallPlayerMediumMove();
+                actions.SmallPlayerStandardMove();
             }
             else if (EventSystem.current.currentSelectedGameObject.name == "Move 3")
             {
@@ -915,11 +924,11 @@ public class BattleSystem : MonoBehaviour
         {
             if (EventSystem.current.currentSelectedGameObject.name == "Move 1")
             {
-                actions.MediumPlayerSmallMove();
+                actions.MediumPlayerQuickMove();
             }
             else if (EventSystem.current.currentSelectedGameObject.name == "Move 2")
             {
-                actions.MediumPlayerMediumMove();
+                actions.MediumPlayerStandardMove();
             }
             else if (EventSystem.current.currentSelectedGameObject.name == "Move 3")
             {
@@ -931,11 +940,11 @@ public class BattleSystem : MonoBehaviour
         {
             if (EventSystem.current.currentSelectedGameObject.name == "Move 1")
             {
-                actions.HeavyPlayerSmallMove();
+                actions.HeavyPlayerQuickMove();
             }
             else if (EventSystem.current.currentSelectedGameObject.name == "Move 2")
             {
-                actions.HeavyPlayerMediumMove();
+                actions.HeavyPlayerStandardMove();
             }
             else if (EventSystem.current.currentSelectedGameObject.name == "Move 3")
             {
@@ -988,6 +997,7 @@ public class BattleSystem : MonoBehaviour
 
                 StartCoroutine(PlayerAttackEnemyVariations(1));
             }
+
         }
 
         //Debug.Log("DAMAGE: " + currentAttackDamage + " SPEED" + currentAttackSpeed);
@@ -1021,7 +1031,11 @@ public class BattleSystem : MonoBehaviour
 
         specialInputTimer = currentSpecialBonus;
 
-        yield return new WaitForSeconds(currentSpecialBonus * UnityEngine.Random.Range(1f, 2f));
+        Debug.Log("I AM HERE");
+
+        yield return new WaitForSeconds(1f);
+
+        Debug.Log("I AM THERE");
 
         specialInputActive = true;
 
@@ -1045,7 +1059,7 @@ public class BattleSystem : MonoBehaviour
 
         specialInputAchieved = false;
 
-        damageCalculated = (currentAttackDamage + playerUnit[currentPlayerNum].attackPower + UnityEngine.Random.Range(0, 10)) - enemyUnit[enemyAlive].defensePower;
+        damageCalculated = (currentAttackDamage + playerUnit[currentPlayerNum].attackPower + UnityEngine.Random.Range(-2, 2)) - enemyUnit[enemyAlive].defensePower;
         damageCalculatedFloat = damageCalculated * specialMoveMultiplier;
         damageCalculated = (int)damageCalculatedFloat;
 
@@ -1054,7 +1068,7 @@ public class BattleSystem : MonoBehaviour
         if (UnityEngine.Random.Range(0f, 10f / specialAccuracyBuffer) <= currentAccuracy)
         {
             enemyUnit[enemyAlive].TakeDamage(damageCalculated);
-            dialogueText.text = "The attack is successful!";
+            dialogueText.text = "The attack is successful! \n" + damageCalculated + " damage done to " + enemyUnit[enemyAlive].unitName;
         }
         else
         {
@@ -1188,14 +1202,17 @@ public class BattleSystem : MonoBehaviour
 
         Debug.Log("DAMAGE: " + currentAttackDamage);
 
-                specialInputTimer = currentSpecialBonus;
+        specialInputTimer = currentSpecialBonus;
 
-        yield return new WaitForSeconds(currentSpecialBonus * UnityEngine.Random.Range(1f, 2f));
+        Debug.Log("I AM HERE" + currentSpecialBonus);
+
+        yield return new WaitForSeconds(currentSpecialBonus);
+
+        Debug.Log("I AM THERE" + currentSpecialBonus);
 
         specialInputActive = true;
 
         yield return new WaitForSeconds(currentSpecialBonus + 0.01f);
-
 
 
         if (specialInputAchieved)
@@ -1216,7 +1233,7 @@ public class BattleSystem : MonoBehaviour
 
         specialInputAchieved = false;
 
-        damageCalculated = (currentAttackDamage + playerUnit[currentPlayerNum].attackPower + UnityEngine.Random.Range(0, 10)) - enemyUnit[enemyAttackSelection].defensePower;
+        damageCalculated = (currentAttackDamage + playerUnit[currentPlayerNum].attackPower + UnityEngine.Random.Range(-2, 2)) - enemyUnit[enemyAttackSelection].defensePower;
         damageCalculatedFloat = damageCalculated * specialMoveMultiplier;
         damageCalculated = (int)damageCalculatedFloat;
 
@@ -1225,7 +1242,7 @@ public class BattleSystem : MonoBehaviour
         if (UnityEngine.Random.Range(0f, 10f / specialAccuracyBuffer) <= currentAccuracy)
         {
             enemyUnit[enemyAttackSelection].TakeDamage(damageCalculated);
-            dialogueText.text = "The attack is successful!";
+            dialogueText.text = "The attack is successful! \n" + damageCalculated + " damage done to " + enemyUnit[enemyAttackSelection].unitName;
         }
         else
         {
