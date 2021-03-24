@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public enum BattleState { START, UPNEXT, PLAYERTURN, ENEMYTURN, WON, LOST  }
@@ -255,6 +256,26 @@ public class BattleSystem : MonoBehaviour
 
 
             //Debug.Log("Player Unit 1: " + playerUnit[0].unitSpeed);
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            /*
+            turnOrder.First().unitSpeed += 10;
+
+            Debug.Log("New Order");
+
+            foreach (var x in turnOrder)
+            {
+                Debug.Log(x.ToString() + " " + x.unitSpeed);
+            }
+            */
+
+
+            //Debug.Log("Player Unit 1: " + playerUnit[0].unitSpeed);
+
+            SceneManager.LoadScene("Test Menu");
 
         }
 
@@ -848,6 +869,13 @@ public class BattleSystem : MonoBehaviour
             int coinsLost = (playerUnit.Length * 20 + UnityEngine.Random.Range(-5, 5));
             dialogueText.text = "You have been defeated... \n" + "You lost " + coinsLost + " coins...";
         }
+
+        Invoke("GoBack", 5f);
+    }
+
+    public void GoBack()
+    {
+        SceneManager.LoadScene("Test Menu");
     }
 
     IEnumerator PlayerHeal()

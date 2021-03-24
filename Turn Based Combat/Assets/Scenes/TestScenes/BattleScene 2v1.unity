@@ -1316,9 +1316,8 @@ MonoBehaviour:
   turnOrder: []
   playerCharacters:
   - {fileID: 5107626517389368758, guid: 76381f13a1ea83e409dcf04c583f31b0, type: 3}
-  - {fileID: 5107626517389368758, guid: 454e65b82ebcc7f48952c50cd42384a4, type: 3}
+  - {fileID: 5107626517389368758, guid: cf8ed422bce014a41bf061a2d3843804, type: 3}
   enemyCharacters:
-  - {fileID: 1749697871844888905, guid: 9bbcc8e93579197458837cbcfdd9fca1, type: 3}
   - {fileID: 1749697871844888905, guid: 9bbcc8e93579197458837cbcfdd9fca1, type: 3}
   unitSpawnPoints:
   - {fileID: 1537473534}
@@ -3264,7 +3263,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: abd00e2f90c79aa419f969a3975953a6, type: 3}
-  m_Color: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 1}
+  m_Color: {r: 0.90588236, g: 0.90588236, b: 0.90588236, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3743,7 +3742,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 16
+  m_SortingOrder: 45
   m_Sprite: {fileID: 21300000, guid: ba554062f0e16454fa0c3e6ff687f314, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
