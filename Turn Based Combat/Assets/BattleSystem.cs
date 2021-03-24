@@ -56,6 +56,7 @@ public class BattleSystem : MonoBehaviour
 
     public int currentAttackDamage;
     public int currentAttackSpeed;
+    public float currentSpecialBonus;
 
     public GameObject enemySelectPanel;
     public int enemyAttackSelection;
@@ -69,6 +70,11 @@ public class BattleSystem : MonoBehaviour
     public GameObject unitTwoUISprite;
 
     public GameObject actionButtonsUI;
+
+    public bool specialInputActive = false;
+    public bool specialInputAchieved = false;
+    public float specialInputTimer;
+    public GameObject specialTimeIndicator;
 
 
     // Start is called before the first frame update
@@ -171,6 +177,29 @@ public class BattleSystem : MonoBehaviour
 
     void Update()
     {
+
+        if (specialInputActive)
+        {
+            if (specialInputTimer >= 0)
+            {
+                specialInputTimer -= Time.deltaTime;
+
+                specialTimeIndicator.SetActive(true);
+
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    specialInputAchieved = true;
+                }
+
+            }
+            else
+            {
+                specialInputActive = false;
+                specialInputTimer = currentSpecialBonus;
+
+                specialTimeIndicator.SetActive(false);
+            }
+        }
 
         Debug.Log("RANDO: " + UnityEngine.Random.Range(0, 2));
 
@@ -279,6 +308,10 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator BattleSetup()
     {
+
+        specialTimeIndicator.SetActive(false);
+        specialInputActive = false;
+        specialInputTimer = 2f;
 
         actionsUI.SetActive(false);
         enemySelectPanel.SetActive(false);
@@ -518,12 +551,33 @@ public class BattleSystem : MonoBehaviour
             Debug.Log(x.ToString() + " " + x.unitSpeed);
         }
 
+        specialInputTimer = currentSpecialBonus;
+
+        yield return new WaitForSeconds(currentSpecialBonus * UnityEngine.Random.Range(1f, 2f));
+
+        specialInputActive = true;
+
+        yield return new WaitForSeconds(currentSpecialBonus + 0.01f);
+
+        if (specialInputAchieved)
+        {
+            Debug.Log("Special YAY");
+        }
+        else
+        {
+            Debug.Log("Special NAY");
+        }
+
+        specialInputAchieved = false;
+
         enemyUnit[0].TakeDamage(currentAttackDamage);
 
         enemyUI.SetHP(enemyUnit[0].unitCurrentHP, 0);
         dialogueText.text = "The attack is successful!";
 
         yield return new WaitForSeconds(textDelay);
+
+        playerUI.UIIndicator();
 
         state = BattleState.UPNEXT;
         UpNext();
@@ -804,11 +858,13 @@ public class BattleSystem : MonoBehaviour
 
         currentAttackDamage = actions.actionDamage;
         currentAttackSpeed = actions.actionSpeed;
+        currentSpecialBonus = actions.specialBonus;
 
         if (enemyCharacters.Length == 1)
         {
             currentAttackDamage = actions.actionDamage;
             currentAttackSpeed = actions.actionSpeed;
+            currentSpecialBonus = actions.specialBonus;
 
             StartCoroutine(PlayerAttack());
         }
@@ -816,6 +872,8 @@ public class BattleSystem : MonoBehaviour
         {
             currentAttackDamage = actions.actionDamage;
             currentAttackSpeed = actions.actionSpeed;
+            currentSpecialBonus = actions.specialBonus;
+
             enemySelectPanel.SetActive(true);
         }
         else if (enemyCharacters.Length == 2 && (!enemyUnit[1].IsDead() || !enemyUnit[0].IsDead()))
@@ -824,6 +882,7 @@ public class BattleSystem : MonoBehaviour
             {
                 currentAttackDamage = actions.actionDamage;
                 currentAttackSpeed = actions.actionSpeed;
+                currentSpecialBonus = actions.specialBonus;
 
                 StartCoroutine(PlayerAttackEnemyVariations(0));
             }
@@ -831,6 +890,7 @@ public class BattleSystem : MonoBehaviour
             {
                 currentAttackDamage = actions.actionDamage;
                 currentAttackSpeed = actions.actionSpeed;
+                currentSpecialBonus = actions.specialBonus;
 
                 StartCoroutine(PlayerAttackEnemyVariations(1));
             }
@@ -864,6 +924,27 @@ public class BattleSystem : MonoBehaviour
 
             Debug.Log(x.ToString() + " " + x.unitSpeed);
         }
+
+        specialInputTimer = currentSpecialBonus;
+
+        yield return new WaitForSeconds(currentSpecialBonus * UnityEngine.Random.Range(1f, 2f));
+
+        specialInputActive = true;
+
+        Debug.Log("DID IT WORK?!");
+
+        yield return new WaitForSeconds(currentSpecialBonus + 0.01f);
+
+        if (specialInputAchieved)
+        {
+            Debug.Log("Special YAY");
+        }
+        else
+        {
+            Debug.Log("Special NAY");
+        }
+
+        specialInputAchieved = false;
 
         enemyUnit[enemyAlive].TakeDamage(currentAttackDamage);
 
@@ -994,6 +1075,26 @@ public class BattleSystem : MonoBehaviour
         }
 
         Debug.Log("DAMAGE: " + currentAttackDamage);
+
+                specialInputTimer = currentSpecialBonus;
+
+        yield return new WaitForSeconds(currentSpecialBonus * UnityEngine.Random.Range(1f, 2f));
+
+        specialInputActive = true;
+
+        yield return new WaitForSeconds(currentSpecialBonus + 0.01f);
+
+        if (specialInputAchieved)
+        {
+            Debug.Log("Special YAY");
+        }
+        else
+        {
+            Debug.Log("Special NAY");
+        }
+
+        specialInputAchieved = false;
+
         enemyUnit[enemyAttackSelection].TakeDamage(currentAttackDamage);
 
         enemyUI.SetHP(enemyUnit[enemyAttackSelection].unitCurrentHP, enemyAttackSelection);

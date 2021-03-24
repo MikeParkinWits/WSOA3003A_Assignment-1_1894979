@@ -13,6 +13,8 @@ public class Actions : MonoBehaviour
 
     public int actionSpeed;
 
+    public float specialBonus;
+
     public Text buttonOneName;
     public Text buttonOneCost;
     public int buttonOneDamage;
@@ -46,6 +48,7 @@ public class Actions : MonoBehaviour
         buttonOneName.text = "Small Punch";
         buttonOneCost.text = "Cost: " + actionSpeed;
         buttonOneDamage = actionDamage;
+        specialBonus = 1.2f;
     }
 
     public void SmallPlayerMediumMove()
@@ -55,6 +58,7 @@ public class Actions : MonoBehaviour
         buttonTwoName.text = "Medium Punch";
         buttonTwoCost.text = "Cost: " + actionSpeed;
         buttonTwoDamage = actionDamage;
+        specialBonus = 1.5f;
     }
 
     public void SmallPlayerHeavyMove()
@@ -64,6 +68,7 @@ public class Actions : MonoBehaviour
         buttonThreeName.text = "Heavy Punch";
         buttonThreeCost.text = "Cost: " + actionSpeed;
         buttonThreeDamage = actionDamage;
+        specialBonus = 1.7f;
     }
 
 
@@ -76,6 +81,7 @@ public class Actions : MonoBehaviour
         buttonOneName.text = "Small Punch";
         buttonOneCost.text = "Cost: " + actionSpeed;
         buttonOneDamage = actionDamage;
+        specialBonus = 1.4f;
     }
 
     public void MediumPlayerMediumMove()
@@ -85,6 +91,7 @@ public class Actions : MonoBehaviour
         buttonTwoName.text = "Medium Punch";
         buttonTwoCost.text = "Cost: " + actionSpeed;
         buttonTwoDamage = actionDamage;
+        specialBonus = 1.6f;
     }
 
     public void MediumPlayerHeavyMove()
@@ -94,6 +101,7 @@ public class Actions : MonoBehaviour
         buttonThreeName.text = "Heavy Punch";
         buttonThreeCost.text = "Cost: " + actionSpeed;
         buttonThreeDamage = actionDamage;
+        specialBonus = 1.9f;
     }
 
     //Heavy Player Moves
@@ -105,6 +113,7 @@ public class Actions : MonoBehaviour
         buttonOneName.text = "Small Punch";
         buttonOneCost.text = "Cost: " + actionSpeed;
         buttonOneDamage = actionDamage;
+        specialBonus = 1.6f;
     }
 
     public void HeavyPlayerMediumMove()
@@ -114,6 +123,7 @@ public class Actions : MonoBehaviour
         buttonTwoName.text = "Medium Punch";
         buttonTwoCost.text = "Cost: " + actionSpeed;
         buttonTwoDamage = actionDamage;
+        specialBonus = 1.9f;
     }
 
     public void HeavyPlayerHeavyMove()
@@ -123,6 +133,7 @@ public class Actions : MonoBehaviour
         buttonThreeName.text = "Heavy Punch";
         buttonThreeCost.text = "Cost: " + actionSpeed;
         buttonThreeDamage = actionDamage;
+        specialBonus = 2.1f;
     }
 
     //Possible Enemy Actions
