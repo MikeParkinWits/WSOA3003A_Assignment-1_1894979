@@ -74,9 +74,6 @@ public class Unit : MonoBehaviour
         foreach (var x in battleSystem.turnOrder)
         {
             x.unitSpeed -= speedChange;
-            //Debug.Log(x.ToString());
-
-            Debug.Log("YES" + x.unitSpeed);
         }
 
         battleSystem.turnOrder.First().unitSpeed += (speedChange) + 20;
@@ -87,16 +84,12 @@ public class Unit : MonoBehaviour
 
     public void NormalAttackSpeed()
     {
-        Debug.Log("Name: " + this.unitName);
 
         int speedChange = battleSystem.turnOrder.ElementAt(1).unitSpeed;
 
         foreach (var x in battleSystem.turnOrder)
         {
             x.unitSpeed -= speedChange;
-            //Debug.Log(x.ToString());
-
-            Debug.Log("YES" + x.unitSpeed);
         }
 
         battleSystem.turnOrder.First().unitSpeed += (speedChange) + battleSystem.currentAttackSpeed;
@@ -107,16 +100,12 @@ public class Unit : MonoBehaviour
 
     public void EnemyAttackSpeed()
     {
-        Debug.Log("Name: " + this.unitName);
 
         int speedChange = battleSystem.turnOrder.ElementAt(1).unitSpeed;
 
         foreach (var x in battleSystem.turnOrder)
         {
             x.unitSpeed -= speedChange;
-            //Debug.Log(x.ToString());
-
-            Debug.Log("YES" + x.unitSpeed);
         }
 
         battleSystem.turnOrder.First().unitSpeed += (speedChange) + battleSystem.currentAttackSpeed;

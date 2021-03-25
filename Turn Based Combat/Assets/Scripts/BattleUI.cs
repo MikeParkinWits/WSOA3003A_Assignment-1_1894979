@@ -26,7 +26,6 @@ public class BattleUI : MonoBehaviour
         levelText[index].text = "Lvl " + unit.unitLevel;
         hpText[index].text = "Health:" + unit.unitCurrentHP;
 
-        Debug.Log(unit.unitCurrentHP);
     }
 
     public void SetHP(int healthPoints, int index)

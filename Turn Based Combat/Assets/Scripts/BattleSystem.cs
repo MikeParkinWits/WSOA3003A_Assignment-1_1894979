@@ -87,7 +87,6 @@ public class BattleSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("sdfkjbsdfkj" + playerCharacters.Length);
         state = BattleState.START;
 
         StartCoroutine(BattleSetup());
@@ -210,8 +209,6 @@ public class BattleSystem : MonoBehaviour
             }
         }
 
-        Debug.Log("RANDO: " + UnityEngine.Random.Range(0, 2));
-
         int count = 0;
 
         foreach (var x in turnOrder)
@@ -237,27 +234,8 @@ public class BattleSystem : MonoBehaviour
             count++;
         }
 
-        //playerUI.UIIndicator();
-
         //Debug.Log("Current Player: " + currentPlayerNum);
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            /*
-            turnOrder.First().unitSpeed += 10;
-
-            Debug.Log("New Order");
-
-            foreach (var x in turnOrder)
-            {
-                Debug.Log(x.ToString() + " " + x.unitSpeed);
-            }
-            */
-
-
-            //Debug.Log("Player Unit 1: " + playerUnit[0].unitSpeed);
-
-        }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -279,60 +257,6 @@ public class BattleSystem : MonoBehaviour
 
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            /*
-            turnOrder.First().unitSpeed += 10;
-
-            Debug.Log("New Order");
-
-            foreach (var x in turnOrder)
-            {
-                Debug.Log(x.ToString() + " " + x.unitSpeed);
-            }
-            */
-
-            Debug.Log("Player Unit 2: " + playerUnit[1].unitSpeed);
-
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            /*
-            turnOrder.First().unitSpeed += 10;
-
-            Debug.Log("New Order");
-
-            foreach (var x in turnOrder)
-            {
-                Debug.Log(x.ToString() + " " + x.unitSpeed);
-            }
-            */
-
-            playerUnit[0].unitSpeed -= 10;
-
-            Debug.Log("Player Unit 1: " + playerUnit[0].unitSpeed);
-
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            /*
-            turnOrder.First().unitSpeed += 10;
-
-            Debug.Log("New Order");
-
-            foreach (var x in turnOrder)
-            {
-                Debug.Log(x.ToString() + " " + x.unitSpeed);
-            }
-            */
-
-            playerUnit[1].unitSpeed -= 10;
-
-            Debug.Log("Player Unit 2: " + playerUnit[1].unitSpeed);
-
-        }
     }
 
     private IEnumerator BattleSetup()
@@ -587,7 +511,7 @@ public class BattleSystem : MonoBehaviour
 
         playerUnit[currentPlayerNum].NormalAttackSpeed();
 
-        Debug.Log("New Order");
+        //Debug.Log("New Order");
 
         int count = 0;
 
@@ -599,7 +523,7 @@ public class BattleSystem : MonoBehaviour
                 turnsUI[count].text = x.unitName.ToString() + " " + x.unitSpeed;
             }
 
-            Debug.Log(x.ToString() + " " + x.unitSpeed);
+            //Debug.Log(x.ToString() + " " + x.unitSpeed);
         }
 
         specialInputTimer = currentSpecialBonus;
@@ -612,13 +536,11 @@ public class BattleSystem : MonoBehaviour
 
         if (specialInputAchieved)
         {
-            Debug.Log("Special YAY");
             specialAccuracyBuffer = 0.9f;
             specialMoveMultiplier = 1.5f;
         }
         else
         {
-            Debug.Log("Special NAY");
             specialAccuracyBuffer = 1.1f;
             specialMoveMultiplier = 1f;
         }
@@ -629,12 +551,19 @@ public class BattleSystem : MonoBehaviour
         damageCalculatedFloat = damageCalculated * specialMoveMultiplier;
         damageCalculated = (int) damageCalculatedFloat;
 
-        Debug.Log("DAMAGE AMOUNT: " + damageCalculated);
-
         if (UnityEngine.Random.Range(0f, 10f/specialAccuracyBuffer) <= currentAccuracy)
         {
             enemyUnit[0].TakeDamage(damageCalculated);
-            dialogueText.text = "The attack is successful! \n" + damageCalculated + " damage done to " + enemyUnit[0].unitName;
+
+            if (specialAccuracyBuffer == 0.9f)
+            {
+                dialogueText.text = "The attack is successful! \n" + "Special Bonus Successful, damage increased by 1.5x \n" + damageCalculated + " damage done to " + enemyUnit[0].unitName;
+            }
+            else
+            {
+                dialogueText.text = "The attack is successful! \n" + "Special Bonus Missed, no damage increase. \n" + damageCalculated + " damage done to " + enemyUnit[0].unitName;
+            }
+
         }
         else
         {
@@ -645,7 +574,7 @@ public class BattleSystem : MonoBehaviour
 
         enemyUI.SetHP(enemyUnit[0].unitCurrentHP, 0);
 
-        yield return new WaitForSeconds(textDelay);
+        yield return new WaitForSeconds(textDelay + 2);
 
         playerUI.UIIndicator();
 
@@ -690,7 +619,7 @@ public class BattleSystem : MonoBehaviour
 
         enemyUnit[currentEnemyNum].NormalAttackSpeed();
 
-        Debug.Log("New Order");
+        //Debug.Log("New Order");
 
         int count = 0;
 
@@ -701,7 +630,7 @@ public class BattleSystem : MonoBehaviour
                 turnsUI[count].text = x.unitName.ToString() + " " + x.unitSpeed;
             }
 
-            Debug.Log(x.ToString() + " " + x.unitSpeed);
+            //Debug.Log(x.ToString() + " " + x.unitSpeed);
         }
 
         dialogueText.text = enemyUnit[currentEnemyNum].unitName + " attacks!";
@@ -801,18 +730,13 @@ public class BattleSystem : MonoBehaviour
 
         if (UnityEngine.Random.Range(0f, 1f) <= 0.05f)
         {
-            Debug.Log("Special YAY");
             specialAccuracyBuffer = 0.9f;
             specialMoveMultiplier = 1.5f;
-            Debug.Log("1235");
-
         }
         else
         {
-            Debug.Log("Special NAY");
             specialAccuracyBuffer = 1f;
             specialMoveMultiplier = 1f;
-            Debug.Log("1235");
         }
 
         specialInputAchieved = false;
@@ -821,12 +745,14 @@ public class BattleSystem : MonoBehaviour
         damageCalculatedFloat = damageCalculated * specialMoveMultiplier;
         damageCalculated = (int)damageCalculatedFloat;
 
-        Debug.Log("DAMAGE AMOUNT ENEMY: " + damageCalculated);
+        //Debug.Log("DAMAGE AMOUNT ENEMY: " + damageCalculated);
 
         if (UnityEngine.Random.Range(0f, 10f / specialAccuracyBuffer) <= currentAccuracy)
         {
             playerUnit[num].TakeDamage(damageCalculated);
+
             dialogueText.text = "The attack is successful! \n" + damageCalculated + " damage done to " + playerUnit[num].unitName;
+
         }
         else
         {
@@ -842,7 +768,7 @@ public class BattleSystem : MonoBehaviour
 
         playerUI.SetHP(playerUnit[num].unitCurrentHP, num);
 
-        yield return new WaitForSeconds(textDelay);
+        yield return new WaitForSeconds(textDelay + 2);
 
         if (PlayerDeathChecker(num))
         {
@@ -863,6 +789,10 @@ public class BattleSystem : MonoBehaviour
         {
             int coinsWon = (enemyUnit.Length * 25 + UnityEngine.Random.Range(-5, 5));
             dialogueText.text = "YOU HAVE WON! \n" + "You received " + coinsWon + " coins!";
+
+            int totalCoins = PlayerPrefs.GetInt("TotalCoins") + coinsWon;
+            PlayerPrefs.SetInt("TotalCoins", totalCoins);
+
         }
         else if (state == BattleState.LOST)
         {
@@ -1027,9 +957,6 @@ public class BattleSystem : MonoBehaviour
             }
 
         }
-
-        //Debug.Log("DAMAGE: " + currentAttackDamage + " SPEED" + currentAttackSpeed);
-
     }
 
 
@@ -1042,7 +969,7 @@ public class BattleSystem : MonoBehaviour
 
         playerUnit[currentPlayerNum].NormalAttackSpeed();
 
-        Debug.Log("New Order");
+        //Debug.Log("New Order");
 
         int count = 0;
 
@@ -1054,16 +981,12 @@ public class BattleSystem : MonoBehaviour
                 turnsUI[count].text = x.unitName.ToString() + " " + x.unitSpeed;
             }
 
-            Debug.Log(x.ToString() + " " + x.unitSpeed);
+            //Debug.Log(x.ToString() + " " + x.unitSpeed);
         }
 
         specialInputTimer = currentSpecialBonus;
 
-        Debug.Log("I AM HERE");
-
         yield return new WaitForSeconds(1f);
-
-        Debug.Log("I AM THERE");
 
         specialInputActive = true;
 
@@ -1071,18 +994,13 @@ public class BattleSystem : MonoBehaviour
 
         if (specialInputAchieved)
         {
-            Debug.Log("Special YAY");
             specialAccuracyBuffer = 0.9f;
             specialMoveMultiplier = 1.5f;
-            Debug.Log("1235");
-
         }
         else
         {
-            Debug.Log("Special NAY");
             specialAccuracyBuffer = 1.1f;
             specialMoveMultiplier = 1f;
-            Debug.Log("1235");
         }
 
         specialInputAchieved = false;
@@ -1091,12 +1009,20 @@ public class BattleSystem : MonoBehaviour
         damageCalculatedFloat = damageCalculated * specialMoveMultiplier;
         damageCalculated = (int)damageCalculatedFloat;
 
-        Debug.Log("DAMAGE AMOUNT: " + damageCalculated);
-
         if (UnityEngine.Random.Range(0f, 10f / specialAccuracyBuffer) <= currentAccuracy)
         {
             enemyUnit[enemyAlive].TakeDamage(damageCalculated);
-            dialogueText.text = "The attack is successful! \n" + damageCalculated + " damage done to " + enemyUnit[enemyAlive].unitName;
+
+            if (specialAccuracyBuffer == 0.9f)
+            {
+                dialogueText.text = "The attack is successful! \n" + "Special Bonus Successful, damage increased by 1.5x \n" + damageCalculated + " damage done to " + enemyUnit[enemyAlive].unitName;
+            }
+            else
+            {
+                dialogueText.text = "The attack is successful! \n" + "Special Bonus Missed, no damage increase. \n" + damageCalculated + " damage done to " + enemyUnit[enemyAlive].unitName;
+            }
+
+            //dialogueText.text = "The attack is successful! \n" + damageCalculated + " damage done to " + enemyUnit[enemyAlive].unitName;
         }
         else
         {
@@ -1105,7 +1031,7 @@ public class BattleSystem : MonoBehaviour
 
         enemyUI.SetHP(enemyUnit[enemyAlive].unitCurrentHP, enemyAlive);
 
-        yield return new WaitForSeconds(textDelay);
+        yield return new WaitForSeconds(textDelay + 2);
 
         playerUI.UIIndicator();
 
@@ -1126,8 +1052,6 @@ public class BattleSystem : MonoBehaviour
 
     private bool DeathChecker(int killed)
     {
-
-        Debug.Log("KILLED: " + killed);
 
         if (enemyUnit[killed].IsDead())
         {
@@ -1168,8 +1092,6 @@ public class BattleSystem : MonoBehaviour
 
     private bool PlayerDeathChecker(int killed)
     {
-
-        Debug.Log("KILLED: " + killed);
 
         if (playerUnit[killed].IsDead())
         {
@@ -1213,7 +1135,7 @@ public class BattleSystem : MonoBehaviour
 
         playerUnit[currentPlayerNum].NormalAttackSpeed();
 
-        Debug.Log("New Order");
+        //Debug.Log("New Order");
 
         int count = 0;
 
@@ -1225,18 +1147,12 @@ public class BattleSystem : MonoBehaviour
                 turnsUI[count].text = x.unitName.ToString() + " " + x.unitSpeed;
             }
 
-            Debug.Log(x.ToString() + " " + x.unitSpeed);
+            //Debug.Log(x.ToString() + " " + x.unitSpeed);
         }
-
-        Debug.Log("DAMAGE: " + currentAttackDamage);
 
         specialInputTimer = currentSpecialBonus;
 
-        Debug.Log("I AM HERE" + currentSpecialBonus);
-
         yield return new WaitForSeconds(currentSpecialBonus);
-
-        Debug.Log("I AM THERE" + currentSpecialBonus);
 
         specialInputActive = true;
 
@@ -1245,18 +1161,13 @@ public class BattleSystem : MonoBehaviour
 
         if (specialInputAchieved)
         {
-            Debug.Log("Special YAY");
             specialAccuracyBuffer = 0.9f;
             specialMoveMultiplier = 1.5f;
-            Debug.Log("1235");
-
         }
         else
         {
-            Debug.Log("Special NAY");
             specialAccuracyBuffer = 1.1f;
             specialMoveMultiplier = 1f;
-            Debug.Log("1235");
         }
 
         specialInputAchieved = false;
@@ -1265,12 +1176,20 @@ public class BattleSystem : MonoBehaviour
         damageCalculatedFloat = damageCalculated * specialMoveMultiplier;
         damageCalculated = (int)damageCalculatedFloat;
 
-        Debug.Log("DAMAGE AMOUNT: " + damageCalculated);
-
         if (UnityEngine.Random.Range(0f, 10f / specialAccuracyBuffer) <= currentAccuracy)
         {
             enemyUnit[enemyAttackSelection].TakeDamage(damageCalculated);
-            dialogueText.text = "The attack is successful! \n" + damageCalculated + " damage done to " + enemyUnit[enemyAttackSelection].unitName;
+
+            if (specialAccuracyBuffer == 0.9f)
+            {
+                dialogueText.text = "The attack is successful! \n" + "Special Bonus Successful, damage increased by 1.5x \n" + damageCalculated + " damage done to " + enemyUnit[enemyAttackSelection].unitName;
+            }
+            else
+            {
+                dialogueText.text = "The attack is successful! \n" + "Special Bonus Missed, no damage increase. \n" + damageCalculated + " damage done to " + enemyUnit[enemyAttackSelection].unitName;
+            }
+
+            //dialogueText.text = "The attack is successful! \n" + damageCalculated + " damage done to " + enemyUnit[enemyAttackSelection].unitName;
         }
         else
         {
@@ -1279,7 +1198,7 @@ public class BattleSystem : MonoBehaviour
 
         enemyUI.SetHP(enemyUnit[enemyAttackSelection].unitCurrentHP, enemyAttackSelection);
 
-        yield return new WaitForSeconds(textDelay);
+        yield return new WaitForSeconds(textDelay + 2);
 
         playerUI.UIIndicator();
 
